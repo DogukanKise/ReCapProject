@@ -1,12 +1,9 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -19,7 +16,7 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        public void AddCar(Car car)
+        public IResult AddCar(Car car)
         {
             if (car.Description.Length>2 && car.DailyPrice>0)
             {
@@ -29,26 +26,27 @@ namespace Business.Concrete
             {
                 Console.WriteLine("Arabanın ismi 2 karakterden az veya günlük fiyatı 0'dan küçük");
             }
+
+            return new SuccessResult(Messages.CarAdded);
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _carDal.GetAll();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll());
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return _carDal.GetCarDetails();
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
+        }
+        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll().Where(x=> x.BrandId == brandId).ToList());
         }
 
-        public List<Car> GetCarsByBrandId(int brandId)
+        public IDataResult<List<Car>> GetCarsByColor(int colorId)
         {
-            return _carDal.GetAll().Where(x=> x.BrandId == brandId).ToList();
-        }
-
-        public List<Car> GetCarsByColor(int colorId)
-        {
-            return _carDal.GetAll().Where(x => x.ColorId == colorId).ToList();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll().Where(x => x.ColorId == colorId).ToList());
         }
     }
 }
