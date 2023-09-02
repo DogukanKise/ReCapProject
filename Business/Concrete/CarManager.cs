@@ -24,7 +24,7 @@ namespace Business.Concrete
             }
             else
             {
-                Console.WriteLine("Arabanın ismi 2 karakterden az veya günlük fiyatı 0'dan küçük");
+                return new ErrorResult(Messages.CarInvalid);
             }
 
             return new SuccessResult(Messages.CarAdded);
