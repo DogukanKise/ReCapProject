@@ -10,7 +10,7 @@ namespace ReCapProject // Note: actual namespace depends on the project name.
         {
             CarManager carManager = new CarManager(new EfCarDal());
 
-            foreach (var item in carManager.GetCarDetails())
+            foreach (var item in carManager.GetCarDetails().Data)
             {
                 Console.WriteLine(item.CarId+" "+item.BrandName+" "+item.ColorName+" "+item.DailyPrice+" "+item.Description);
             }
